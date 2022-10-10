@@ -10,6 +10,9 @@ T = TypeVar('T', bound=Base)
 
 
 class BaseDAO(Generic[T]):
+    """
+    Базовый DAO
+    """
     __model__ = Base
 
     def __init__(self, db_session: scoped_session) -> None:
@@ -20,9 +23,15 @@ class BaseDAO(Generic[T]):
         return current_app.config['ITEMS_PER_PAGE']
 
     def get_by_id(self, pk: int) -> Optional[T]:
+        """
+        Метод получения объекта по pk
+        """
         return self._db_session.query(self.__model__).get(pk)
 
     def get_all(self, page: Optional[int] = None) -> List[T]:
+        """
+        Метод получения всех объъектов
+        """
         stmt: BaseQuery = self._db_session.query(self.__model__)
         if page:
             try:

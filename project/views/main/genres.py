@@ -9,21 +9,27 @@ api = Namespace('genres')
 
 @api.route('/')
 class GenresView(Resource):
+    """
+    Представление для всех жанров
+    """
     @api.expect(page_parser)
     @api.marshal_with(genre, as_list=True, code=200, description='OK')
     def get(self):
         """
-        Get all genres.
+        Получить все жанры
         """
         return genre_service.get_all(**page_parser.parse_args())
 
 
 @api.route('/<int:genre_id>/')
 class GenreView(Resource):
+    """
+    Представление для одного жанра
+    """
     @api.response(404, 'Not Found')
     @api.marshal_with(genre, code=200, description='OK')
     def get(self, genre_id: int):
         """
-        Get genre by id.
+        Получить жанр по id
         """
         return genre_service.get_item(genre_id)
